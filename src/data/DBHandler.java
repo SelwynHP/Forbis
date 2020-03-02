@@ -342,6 +342,58 @@ public class DBHandler {
 		}
 		return chList;
 	}
+	public static int GetUserCheckingsCount(int id) {
+		Connection conn = DBHandler.connDB();
+		int count;
+		ArrayList<Checking> chList = new ArrayList<Checking>();
+		Checking ch1 = null;
+		String selectQuery = "SELECT * FROM ACCOUNTS "
+				+ "WHERE cid = ? AND type = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(selectQuery);
+			ps.setInt(1, id);
+			ps.setString(2, AccountType.Checking.toString());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				ch1 = new Checking();
+				ch1.setId(rs.getInt(1));
+				ch1.setPin(rs.getInt(2));
+				ch1.setName(rs.getString(3));
+				ch1.setType(AccountType.valueOf(rs.getString(4)));
+				
+				String[] line = rs.getString(5).split("-");
+				
+				ch1.setOpenedDate(LocalDate.of(Integer.valueOf(line[0]), Integer.valueOf(line[1]), Integer.valueOf(line[2])));
+				ch1.setBalance(rs.getDouble(6));
+				ch1.setTransactionLimit(rs.getInt(7));
+				ch1.setCid(rs.getInt(8));
+				ch1.setAnnualInterestRate(rs.getDouble(9));
+				ch1.setExtraFees(rs.getDouble(10));
+				
+				chList.add(ch1);
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("An error has occured from SELECT Statement.");
+		}
+		count = chList.size();
+		return count;
+		/*int count = 0;
+		String selectQuery = "SELECT COUNT(*) FROM ACCOUNTS "
+				+ "WHERE cid = ? AND type = '?'";
+		try {
+			PreparedStatement ps = conn.prepareStatement(selectQuery);
+			ps.setInt(1, id);
+			ps.setString(2, AccountType.Checking.toString());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt("COUNT(*)");
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return count;*/
+	}
 	public static void SavingInsert(Saving s1, Connection conn) {
 		String insertQuery = "INSERT INTO ACCOUNTS(id, pin, name, type, openedDate, balance, transactionLimit, cid, annualInterestRate, annualGain, extraFees) "
 				+ "VALUES(account_seq.NEXTVAL,?,?,?,?,?,?,?,?,?,?)";

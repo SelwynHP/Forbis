@@ -1,5 +1,7 @@
 package bus;
 
+import data.DBHandler;
+
 public class Customer extends Person {
 	/**
 	 * 
@@ -49,7 +51,15 @@ public class Customer extends Person {
 		IAccountManipulator.checkBalance();
 	}
 	public void closeAccount() {
-		IAccountManipulator.closeAccount();
+		int numChecking = DBHandler.GetUserCheckingsCount(this.id);
+		
+		if(numChecking > 1) {
+			IAccountManipulator.closeAccount();
+		}
+		else {
+			System.out.println("Your account must have at least one Checking account\n" + "Denied!");
+			Validation.getPause();
+		}
 	}
 	public void listAccounts() {
 		IAccountManipulator.listAccounts(this.id);
