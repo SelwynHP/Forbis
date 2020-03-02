@@ -184,17 +184,24 @@ public class IAccountManipulator {
 		ArrayList<Credit> c1 = DBHandler.getCredits(conn);
 		if(!ch1.isEmpty()) {
 			for(Checking element : ch1) {
+				if(element.getCid() == id) {
+					
+				}
 				System.out.println(element.getId() + "," + element.getType());
 			}
 		}
 		if(!s1.isEmpty()) {
 			for(Saving element : s1) {
-				System.out.println(element.getId() + "," + element.getType());
+				if(element.getCid() == id) {
+					System.out.println(element.getId() + "," + element.getType());
+				}
 			}
 		}
 		if(!c1.isEmpty()) {
 			for(Credit element : c1) {
-				System.out.println(element.getId() + "," + element.getType());
+				if(element.getCid() == id) {
+					System.out.println(element.getId() + "," + element.getType());
+				}
 			}
 		}
 	}
