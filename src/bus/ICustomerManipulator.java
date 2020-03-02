@@ -29,7 +29,7 @@ public class ICustomerManipulator {
 			a1.setProvince(Validation.getString());
 			
 			c1.setAddress(a1);
-			System.out.println("Enter the phone number");
+			System.out.println("Enter the phone number(555-555-5555)");
 			c1.setPhoneNumber(Validation.getPhone());
 			//System.out.println("Enter id");
 			System.out.println("Enter password");
