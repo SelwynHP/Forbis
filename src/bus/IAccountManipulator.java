@@ -124,22 +124,29 @@ public class IAccountManipulator {
 		System.out.println("Please enter the account number you which to check balance:");
 		id = Validation.getInteger();
 		
-		switch(DBHandler.getAccountType(id, conn).toString()) {
-		case "Checking":
-			Checking aChecking = DBHandler.getChecking(id, conn);
-			aChecking.checkBalance();
-			Validation.getPause();
-			break;
-		case "Saving":
-			Saving aSaving = DBHandler.getSaving(id, conn);
-			aSaving.checkBalance();
-			Validation.getPause();
-			break;
-		case "Credit":
-			Credit aCredit = DBHandler.getCredit(id, conn);
-			aCredit.checkBalance();
-			Validation.getPause();
-			break;
+		AccountType at = DBHandler.getAccountType(id, conn);
+		if(at != null)
+		{
+			switch(at.toString()) {
+			case "Checking":
+				Checking aChecking = DBHandler.getChecking(id, conn);
+				aChecking.checkBalance();
+				Validation.getPause();
+				break;
+			case "Saving":
+				Saving aSaving = DBHandler.getSaving(id, conn);
+				aSaving.checkBalance();
+				Validation.getPause();
+				break;
+			case "Credit":
+				Credit aCredit = DBHandler.getCredit(id, conn);
+				aCredit.checkBalance();
+				Validation.getPause();
+				break;
+			}
+		}
+		else {
+			System.out.println("No accounts founds");
 		}
 	}
 	public static void closeAccount() {
